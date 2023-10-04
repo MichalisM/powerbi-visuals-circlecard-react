@@ -25,6 +25,11 @@
 */
 import * as React from "react";
 
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-slider";
+import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
+
 export interface State {
     textLabel: string,
     textValue: string,
@@ -74,6 +79,7 @@ export class ReactCircleCard extends React.Component<object, State>{
                 <p>
                     {textLabel}
                     <br/>
+                    <CalciteButton>Test</CalciteButton>
                     <em>{textValue}</em>
                 </p>
             </div>
