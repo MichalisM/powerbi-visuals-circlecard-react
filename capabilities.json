@@ -45,5 +45,15 @@
             }
         }
     ],
-    "privileges": []
+    "privileges": [
+        {
+            "name": "WebAccess",
+            "essential": true,
+            "parameters": [
+                "https://*.microsoft.com",
+                "https://unpkg.com",
+                "https://*.arcgis.com"
+            ]
+        }
+    ]
 }
