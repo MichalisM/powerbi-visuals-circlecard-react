@@ -36,7 +36,8 @@ import FormattingModel = powerbi.visuals.FormattingModel;
 import IVisual = powerbi.extensibility.visual.IVisual;
 import DataView = powerbi.DataView;
 import IViewport = powerbi.IViewport;
-
+import { setAssetPath } from "@esri/calcite-components/dist/components";
+import MapView from "@arcgis/core/views/MapView.js";
 import { ReactCircleCard, initialState } from "./component";
 import { Settings } from "./settings";
 import "./../style/visual.less";
@@ -57,6 +58,9 @@ export class Visual implements IVisual {
         this.formattingSettingsService = new FormattingSettingsService(this.localizationManager);
 
         ReactDOM.render(this.reactRoot, this.target);
+        setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+
+        new MapView({});
     }
 
     public update(options: VisualUpdateOptions) {
