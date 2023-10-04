@@ -16,7 +16,9 @@
     "powerbi-visuals-utils-dataviewutils": "6.0.1",
     "powerbi-visuals-utils-formattingmodel": "5.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@arcgis/core": "4.27.6",
+    "@esri/calcite-components-react": "^1.4.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.35",
