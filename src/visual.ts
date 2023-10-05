@@ -25,7 +25,7 @@
 */
 "use strict";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import powerbi from "powerbi-visuals-api";
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
 
@@ -37,10 +37,13 @@ import IVisual = powerbi.extensibility.visual.IVisual;
 import DataView = powerbi.DataView;
 import IViewport = powerbi.IViewport;
 import { setAssetPath } from "@esri/calcite-components/dist/components";
-import MapView from "@arcgis/core/views/MapView.js";
+// import MapView from "@arcgis/core/views/MapView.js";
 import { ReactCircleCard, initialState } from "./component";
 import { Settings } from "./settings";
 import "./../style/visual.less";
+
+setAssetPath("https://unpkg.com/browse/@esri/calcite-components@1.4.2/dist/calcite/assets");
+
 
 export class Visual implements IVisual {
     private target: HTMLElement;
@@ -51,16 +54,16 @@ export class Visual implements IVisual {
     private localizationManager: ILocalizationManager;
 
     constructor(options: VisualConstructorOptions) {
+        debugger;
         this.reactRoot = React.createElement(ReactCircleCard, {});
         this.target = options.element;
         this.settings = new Settings()
         this.localizationManager = options.host.createLocalizationManager()
         this.formattingSettingsService = new FormattingSettingsService(this.localizationManager);
+        const root = createRoot(this.target);
+        root.render(this.reactRoot);
 
-        ReactDOM.render(this.reactRoot, this.target);
-        setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
-
-        new MapView({});
+        // new MapView({});
     }
 
     public update(options: VisualUpdateOptions) {
