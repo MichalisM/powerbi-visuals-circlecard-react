@@ -1,0 +1,25 @@
+{
+    "visual": {
+        "name": "reactCircleCard",
+        "displayName": "ReactCircleCard",
+        "guid": "reactCircleCardF6C87CAA832A42FBBFBF7E66B8C15578",
+        "visualClassName": "Visual",
+        "version": "1.0.1",
+        "description": "",
+        "supportUrl": "",
+        "gitHubUrl": "https://github.com/MichalisM/powerbi-visuals-circlecard-react"
+    },
+    "apiVersion": "5.3.0",
+    "author": {
+        "name": "Michael M",
+        "email": "mixxxal@yahoo.com"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": [],
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": []
+}
