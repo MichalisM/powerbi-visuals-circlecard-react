@@ -4,3 +4,4 @@ dist
 .eslintrc.js
 karma.conf.ts
 style
+webpack.config.js
