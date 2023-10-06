@@ -23,18 +23,17 @@ const visualSourceLocation = "../../src/visual" // This path is used inside of t
 const statsLocation = "../../webpack.statistics.dev.html";
 
 
-
 module.exports = function (env, arg) {
-    const isProduction = arg.mode;
+    const isProduction = arg.mode === "production";
     let config = {
         entry: {
             "visual.js": pluginLocation,
         },
         target: "web",
         devtool: "source-map",
-        mode: isProduction,
+        mode: arg.mode,
         optimization: {
-            minimize: isProduction === "production", // enable minimization for create *.pbiviz file less than 2 Mb, can be disabled for dev mode
+            minimize: false, // enable minimization for create *.pbiviz file less than 2 Mb, can be disabled for dev mode
         },
         performance: {
             maxEntrypointSize: 1024000,
@@ -93,23 +92,11 @@ module.exports = function (env, arg) {
         externals: { "powerbi-visuals-api": "null" },
         resolve: {
             extensions: [".tsx", ".ts", ".jsx", ".js", ".css"],
-            modules: [
-                path.resolve(__dirname, 'src'),
-                path.resolve(__dirname, 'node_modules'),
-                'node_modules'
-            ],
-        },
-        resolveLoader: {
-            modules: [
-                path.resolve(__dirname, 'src'),
-                path.resolve(__dirname, 'node_modules'),
-                'node_modules'
-            ],
         },
         output: {
             clean: true,
             path: path.join(__dirname, ".tmp", "drop"),
-            publicPath: 'assets',
+            publicPath: "/assets/", // is it set from the code?
             filename: "[name]",
             library: pbivizFile.visual.guid,
             libraryTarget: "var",
@@ -125,15 +112,6 @@ module.exports = function (env, arg) {
             hot: false,
             server: { // cert files for dev server
                 type: "https",
-                options: {
-                    // keep it commented to use webpack generated certificate
-                    // key: path.join(__dirname, "certs","PowerBICustomVisualTest_public.key"), // for darwin, linux
-                    // cert: path.join(__dirname, "certs", "PowerBICustomVisualTest_public.cer"), // for darwin, linux
-                    // pfx: fs.readFileSync(path.join(__dirname, "certs", "PowerBICustomVisualTest_public.pfx")), // for windows
-
-                    // passphrase: "5031595470751755"
-                    // requestCert: true,
-                }
             },
             headers: {
                 "access-control-allow-origin": "*",
@@ -160,7 +138,7 @@ module.exports = function (env, arg) {
                 dependenciesSchema: powerbiApi.schemas.dependencies,
                 devMode: false,
                 generatePbiviz: true,
-                generateResources: isProduction === arg.mode,
+                generateResources: true,
                 modules: true,
                 packageOutPath: path.join(__dirname, "dist"),
             }),

@@ -24,6 +24,7 @@
 *  THE SOFTWARE.
 */
 "use strict";
+import './publicPath';
 import * as React from "react";
 import { createRoot } from 'react-dom/client';
 import powerbi from "powerbi-visuals-api";
@@ -36,14 +37,16 @@ import FormattingModel = powerbi.visuals.FormattingModel;
 import IVisual = powerbi.extensibility.visual.IVisual;
 import DataView = powerbi.DataView;
 import IViewport = powerbi.IViewport;
-import { setAssetPath } from "@esri/calcite-components/dist/components";
-// import MapView from "@arcgis/core/views/MapView.js";
+import MapView from "@arcgis/core/views/MapView.js";
+import Map from "@arcgis/core/Map.js";
+import Basemap from "@arcgis/core/Basemap.js";
 import { ReactCircleCard, initialState } from "./component";
 import { Settings } from "./settings";
 import "./../style/visual.less";
+import { setAssetPath } from "@esri/calcite-components/dist/components";
+import MapImageLayer from '@arcgis/core/layers/MapImageLayer.js';
 
-setAssetPath("https://unpkg.com/browse/@esri/calcite-components@1.4.2/dist/calcite/assets");
-
+setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
 
 export class Visual implements IVisual {
     private target: HTMLElement;
@@ -60,10 +63,26 @@ export class Visual implements IVisual {
         this.settings = new Settings()
         this.localizationManager = options.host.createLocalizationManager()
         this.formattingSettingsService = new FormattingSettingsService(this.localizationManager);
-        const root = createRoot(this.target);
-        root.render(this.reactRoot);
-
-        // new MapView({});
+        // const root = createRoot(this.target);
+        // root.render(this.reactRoot);
+        const baseMapLayer = new MapImageLayer({
+            url: "https://tst-gis.infrabel.be/arcgis/rest/services/OpenStreetBasemap/MapServer"
+         })
+        const basemap = new Basemap({
+            id: "osmMap",
+            title: "OSM BaseMap"
+        });
+        basemap.baseLayers.add(baseMapLayer);
+        const map = new Map({
+            basemap: basemap
+          });
+  
+         new MapView({
+            container: this.target as HTMLDivElement,
+            map: map,
+            zoom: 4,
+            center: [15, 65] // longitude, latitude
+          });
     }
 
     public update(options: VisualUpdateOptions) {

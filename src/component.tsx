@@ -25,8 +25,8 @@
 */
 import * as React from "react";
 
-import "@esri/calcite-components/dist/components/calcite-button";
-import { CalciteButton } from "@esri/calcite-components-react";
+import "@esri/calcite-components/dist/components/calcite-button.js";
+import  {CalciteButton}  from "@esri/calcite-components-react/dist/components";
 
 export interface State {
     textLabel: string,
