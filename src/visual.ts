@@ -37,20 +37,18 @@ import FormattingModel = powerbi.visuals.FormattingModel;
 import IVisual = powerbi.extensibility.visual.IVisual;
 import DataView = powerbi.DataView;
 import IViewport = powerbi.IViewport;
-import MapView from "@arcgis/core/views/MapView.js";
-import Map from "@arcgis/core/Map.js";
-import Basemap from "@arcgis/core/Basemap.js";
 import { ReactCircleCard, initialState } from "./component";
+import reactMapView from './mapView'; 
 import { Settings } from "./settings";
 import "./../style/visual.less";
 import { setAssetPath } from "@esri/calcite-components/dist/components";
-import MapImageLayer from '@arcgis/core/layers/MapImageLayer.js';
 
 setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
 
 export class Visual implements IVisual {
     private target: HTMLElement;
     private reactRoot: React.ComponentElement<any, any>;
+    private mapView: React.FunctionComponentElement<any>;
     private settings: Settings;
     private viewport: IViewport;
     private formattingSettingsService: FormattingSettingsService;
@@ -59,30 +57,15 @@ export class Visual implements IVisual {
     constructor(options: VisualConstructorOptions) {
         debugger;
         this.reactRoot = React.createElement(ReactCircleCard, {});
+        this.mapView = React.createElement(reactMapView, {});
+
         this.target = options.element;
-        this.settings = new Settings()
+        this.settings = new Settings();
         this.localizationManager = options.host.createLocalizationManager()
         this.formattingSettingsService = new FormattingSettingsService(this.localizationManager);
-        // const root = createRoot(this.target);
+        const root = createRoot(this.target);
         // root.render(this.reactRoot);
-        const baseMapLayer = new MapImageLayer({
-            url: "https://tst-gis.infrabel.be/arcgis/rest/services/OpenStreetBasemap/MapServer"
-         })
-        const basemap = new Basemap({
-            id: "osmMap",
-            title: "OSM BaseMap"
-        });
-        basemap.baseLayers.add(baseMapLayer);
-        const map = new Map({
-            basemap: basemap
-          });
-  
-         new MapView({
-            container: this.target as HTMLDivElement,
-            map: map,
-            zoom: 4,
-            center: [15, 65] // longitude, latitude
-          });
+        root.render(this.mapView);
     }
 
     public update(options: VisualUpdateOptions) {
