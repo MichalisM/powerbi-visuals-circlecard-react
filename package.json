@@ -7,9 +7,9 @@
   },
   "scripts": {
     "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
-    "package": "webpack --mode development --env DEV",
+    "package": "webpack --mode development",
     "pbiviz": "pbiviz",
-    "start": "webpack serve --mode development --env DEV",
+    "start": "webpack serve --mode development",
     "pbivizStart": "pbiviz start",
     "pbivizPackage": "pbiviz package"
   },

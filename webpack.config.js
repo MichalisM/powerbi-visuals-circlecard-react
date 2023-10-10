@@ -33,7 +33,7 @@ module.exports = function (env, arg) {
         devtool: "source-map",
         mode: arg.mode,
         optimization: {
-            minimize: false, // enable minimization for create *.pbiviz file less than 2 Mb, can be disabled for dev mode
+            minimize: isProduction, // enable minimization for create *.pbiviz file less than 2 Mb, can be disabled for dev mode
         },
         performance: {
             maxEntrypointSize: 1024000,
@@ -125,6 +125,9 @@ module.exports = function (env, arg) {
             }
         },
         plugins: [
+            new webpack.optimize.LimitChunkCountPlugin({
+                maxChunks: 1
+            }),
             new MiniCssExtractPlugin({
                 filename: "visual.css",
                 chunkFilename: "[id].css"
@@ -163,6 +166,21 @@ module.exports = function (env, arg) {
             }),
         ],
     };
+
+    // if (isProduction) {
+    //     config.plugins.push(
+    //         new webpack.EnvironmentPlugin({
+    //             BASE_URL: "",
+    //         }),
+    //     );
+    // } else {
+    //     config.plugins.push(
+    //         new webpack.EnvironmentPlugin({
+    //             BASE_URL: "https://localhost:8080",
+    //         }),
+    //     );
+    //     capabilities.privileges[0].parameters.push("https://localhost:8080")
+    // }
 
     return config;
 }
