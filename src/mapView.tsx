@@ -31,8 +31,6 @@ function reactMapView() {
             new MapView({
                 container: mapDiv.current,
                 map: map,
-                zoom: 4,
-                center: [15, 65] // longitude, latitude
             });
         }
     }, []);
