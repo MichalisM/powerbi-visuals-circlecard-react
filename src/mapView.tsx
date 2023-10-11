@@ -1,9 +1,10 @@
 import { useRef, useEffect } from "react";
 import * as React from "react";
-import MapView from "@arcgis/core/views/MapView";
-import Map from "@arcgis/core/Map";
-import Basemap from "@arcgis/core/Basemap";
-import MapImageLayer from '@arcgis/core/layers/MapImageLayer';
+import MapView from "@arcgis/core/views/MapView.js";
+import Map from "@arcgis/core/Map.js";
+import Basemap from "@arcgis/core/Basemap.js";
+import MapImageLayer from '@arcgis/core/layers/MapImageLayer.js';
+import Home from "@arcgis/core/widgets/Home.js";
 
 function reactMapView() {
 
@@ -14,8 +15,6 @@ function reactMapView() {
             /**
              * Initialize application
              */
-
-
             const baseMapLayer = new MapImageLayer({
                 url: "https://tst-gis.infrabel.be/arcgis/rest/services/OpenStreetBasemap/MapServer"
             })
@@ -28,10 +27,16 @@ function reactMapView() {
                 basemap: basemap
             });
 
-            new MapView({
+            const customMapView = new MapView({
                 container: mapDiv.current,
                 map: map,
             });
+            const homeWidget = new Home({
+                view: customMapView
+            });
+
+            // adds the home widget to the top left corner of the MapView
+            customMapView.ui.add(homeWidget, "top-left");
         }
     }, []);
 
