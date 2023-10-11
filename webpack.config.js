@@ -6,6 +6,7 @@ const { PowerBICustomVisualsWebpackPlugin, LocalizationLoader } = require('power
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ExtraWatchWebpackPlugin = require("extra-watch-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 // api configuration
 const powerbiApi = require("powerbi-visuals-api");
@@ -33,11 +34,20 @@ module.exports = function (env, arg) {
         devtool: "source-map",
         mode: arg.mode,
         optimization: {
-            minimize: isProduction, // enable minimization for create *.pbiviz file less than 2 Mb, can be disabled for dev mode
+            minimizer: [
+                new TerserPlugin({
+                    parallel: true,
+                    terserOptions: {}
+                })
+            ],
+            minimize: false,
+            concatenateModules: false
+           // minimize: isProduction, // enable minimization for create *.pbiviz file less than 2 Mb, can be disabled for dev mode
         },
         performance: {
             maxEntrypointSize: 1024000,
-            maxAssetSize: 1024000
+            maxAssetSize: 1024000,
+            hints: false
         },
         module: {
             rules: [
@@ -166,21 +176,6 @@ module.exports = function (env, arg) {
             }),
         ],
     };
-
-    // if (isProduction) {
-    //     config.plugins.push(
-    //         new webpack.EnvironmentPlugin({
-    //             BASE_URL: "",
-    //         }),
-    //     );
-    // } else {
-    //     config.plugins.push(
-    //         new webpack.EnvironmentPlugin({
-    //             BASE_URL: "https://localhost:8080",
-    //         }),
-    //     );
-    //     capabilities.privileges[0].parameters.push("https://localhost:8080")
-    // }
 
     return config;
 }
